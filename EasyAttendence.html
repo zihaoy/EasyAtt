@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>Easy Attendance</title>
+<link rel = "stylesheet" href = "EasyAttendence.css">
+<script>
+function new_class(){
+	var Class_Name = document.getElementById("classname").value;
+	var Class_Start = document.getElementById("startdate").value;
+	var Class_End = document.getElementById("enddate").value;
+	var Class_Mon = document.getElementById("ifmon").checked;
+	var Class_Tue = document.getElementById("iftue").checked;
+	var Class_Wed = document.getElementById("ifwed").checked;
+	var Class_Thu = document.getElementById("ifthu").checked;
+	var Class_Fri = document.getElementById("iffri").checked;
+	var Class_Sat = document.getElementById("ifsat").checked;
+	var Class_Sun = document.getElementById("ifsun").checked;
+	var temp = Class_Mon || Class_Tue || Class_Wed || Class_Thu || Class_Fri || Class_Sat || Class_Sun;
+	if (Class_Name == "" || Class_Start == "" || Class_End == "" || temp == false){
+		alert("Please make sure you enter all information to create class list");
+	}else{
+		var oldRow = document.getElementById("ta").lastChild;
+		var newRow = document.createElement("tr");
+		var NSE = Class_Name + "   " + Class_Start + " to " + Class_End;
+		newRow.innerHTML = "<td>" + NSE + "&nbsp &nbsp &nbsp <button type = \"submit\" formaction = \"ClassTable.html\" formtarget = \"_blank\"> Go </button>";
+		oldRow.appendChild(newRow);
+	}
+}
+function clean_input(){
+	document.getElementById("classname").value = "";
+	document.getElementById("startdate").value = "";
+	document.getElementById("enddate").value = "";
+	document.getElementById("ifmon").checked = false;
+	document.getElementById("iftue").checked = false;
+	document.getElementById("ifwed").checked = false;
+	document.getElementById("ifthu").checked = false;
+	document.getElementById("iffri").checked = false;
+	document.getElementById("ifsat").checked = false;
+	document.getElementById("ifsun").checked = false;
+}
+</script>
+</head>
+<body>
+<h1>Welcome to Easy Attendance</h1>
+<h2>Create Class List</h2>
+<p>
+<form>class name: (eg. CIS410)&nbsp <input type = "text" name= "classname" id = "classname">
+</p>
+<p>
+<form>class duration time: from &nbsp <input type = "date" name= "startdate" id = "startdate"> 
+&nbsp to &nbsp <input type = "date" name= "enddate" id = "enddate">
+</p>
+<p>
+<form>class day:(Tick after the box) Mon <input type= "checkbox" name = "Ifmon" id = "ifmon" >
+ &nbsp Tue<input type= "checkbox" name = "Iftue" id = "iftue">
+  &nbsp Wed<input type= "checkbox" name = "Ifwed" id = "ifwed">
+  &nbsp Thu<input type= "checkbox" name = "Ifthu" id = "ifthu">
+  &nbsp Fri<input type= "checkbox" name = "Iffri" id = "iffri">
+  &nbsp Sat<input type= "checkbox" name = "Ifsat" id = "ifsat">
+  &nbsp Sun<input type= "checkbox" name = "Ifsun" id = "ifsun">
+</p>
+<p>
+<button type= "button" name = "createbutton"  onclick = "new_class()">Create Class</button>
+&nbsp &nbsp &nbsp
+<button type= "button" name = "clearbutton"  onclick = "clean_input()">Clear</button>
+</p>
+<p id = "what"></p>
+<p>
+<table id = "ta" border = "1" width = "30%" >
+<td id = "l1" height = "50px"><font size = "3">Class already created
+</td>
+</p>
+</body></html>
