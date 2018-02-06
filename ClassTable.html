@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>Class</title>
+<link rel = "stylesheet" href = "EasyAttendence.css">
+<script>
+function addname(){
+	var names = document.getElementById("nam").value;
+	if (names != ""){
+		var oldRow = document.getElementById("ta").lastChild;
+		var newRow = document.createElement("tr");
+		newRow.innerHTML = "<td>" + names + "</td>";
+		oldRow.appendChild(newRow);
+		document.getElementById("nam").value = "";
+	}
+
+}
+</script>
+</head>
+<body>
+<p>
+Class XXX
+</p>
+<p>
+<input type = "text" name = "nam" id = "nam" style="font-size:30px">&nbsp &nbsp &nbsp <button type = "button" onclick = "addname()">Add Name</button>
+</p>
+<p>
+<table id = "ta" border = "1">
+<tr height = "50px">
+<td id = "l1"><font size = "3">Name</td>
+</tr>
+</table>
+</p>
+</body>
