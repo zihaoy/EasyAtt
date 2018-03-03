@@ -70,7 +70,7 @@ function addname(){
 		var newRow = document.createElement("tr");
 		var temp = "<td>"+names+"</td>";
 		for (var i = 0; i< classday; i++){
-			temp += "<td><button type= \"button\" id = \""+names+i+"\" onClick = \"change("+names+i+")\" >NO</button></td>";
+			temp += "<td><button type= \"button\" id = \""+names+i+"\" onClick = \"change(\'"+names+i+"\')\" >NO</button></td>";
 		}
 		newRow.innerHTML = temp;
 		oldRow.appendChild(newRow);
