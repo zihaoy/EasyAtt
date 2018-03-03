@@ -12,4 +12,11 @@ button:hover {
     background-color: #000000;
 	color: white;
 }
+table{
+	font-size:30px;
+	border-width: 1px;
+}
+th{
+	width:200px;
+}
 

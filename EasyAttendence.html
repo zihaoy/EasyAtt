@@ -4,6 +4,7 @@
 <title>Easy Attendance</title>
 <link rel = "stylesheet" href = "EasyAttendence.css">
 <script>
+var classday = 0;
 function new_class(){
 	var Class_Name = document.getElementById("classname").value;
 	var Class_Start = document.getElementById("startdate").value;
@@ -19,11 +20,35 @@ function new_class(){
 	if (Class_Name == "" || Class_Start == "" || Class_End == "" || temp == false){
 		alert("Please make sure you enter all information to create class list");
 	}else{
-		var oldRow = document.getElementById("ta").lastChild;
-		var newRow = document.createElement("tr");
-		var NSE = Class_Name + "   " + Class_Start + " to " + Class_End;
-		newRow.innerHTML = "<td>" + NSE + "&nbsp &nbsp &nbsp <button type = \"submit\" formaction = \"ClassTable.html\" formtarget = \"_blank\"> Go </button>";
-		oldRow.appendChild(newRow);
+		C_st = trandate(Class_Start);
+		C_end = trandate(Class_End);
+		var totalday = (C_end-C_st)/(24*3600*1000);
+		if (totalday <= 0){
+			alert("Your End date is early than Start date.");
+		}else if(totalday > 365){
+			alert("Your input duration is too large.")
+		}else{
+			var oldRow = document.getElementById("ta");
+			var newRow = document.createElement("tr");
+			var Input = "<th>"+ Class_Name + "</th>";
+			var d = new Date(C_st);
+			for(var i = 0; i <= totalday;i++){
+				var temp = deteDay(d,Class_Mon,Class_Tue,Class_Wed, Class_Thu,Class_Fri,Class_Sat,Class_Sun);
+				if (temp != ""){
+					Input += "<th>"+temp+ "</th>";
+					classday += 1;
+				}
+				d = new Date(d);
+				d.setDate(d.getDate() + 1);
+			}
+			newRow.innerHTML = Input;
+			oldRow.appendChild(newRow);
+			
+			var but = document.getElementById("addna");
+			but.disabled = false;
+			var but2 = document.getElementById("cb");
+			but2.disabled = true;
+		}
 	}
 }
 function clean_input(){
@@ -37,6 +62,70 @@ function clean_input(){
 	document.getElementById("iffri").checked = false;
 	document.getElementById("ifsat").checked = false;
 	document.getElementById("ifsun").checked = false;
+}
+function addname(){
+	var names = document.getElementById("nam").value;
+	if (names != ""){
+		var oldRow = document.getElementById("ta");
+		var newRow = document.createElement("tr");
+		var temp = "<td>"+names+"</td>";
+		for (var i = 0; i< classday; i++){
+			temp += "<td><button type= \"button\" id = \""+names+i+"\" onClick = \"change("+names+i+")\" >NO</button></td>";
+		}
+		newRow.innerHTML = temp;
+		oldRow.appendChild(newRow);
+		document.getElementById("nam").value = "";
+	}
+
+}
+function trandate(date){
+	var year = "";
+	var month = "";
+	var day = "";
+	for (var i = 0; i< 4; i++){
+		year += date[i];
+	}
+	for (var i = 5; i<7;i++){
+		month += date[i];
+	}
+	month -=  1;
+	for (var i = 8; i<10;i++){
+		day += date[i];
+	}
+	var dt = new Date(year,month,day);
+	return dt;
+	
+}
+function deteDay(date,Mond,Tued,Wedd, Thud,Frid,Satd,Sund){
+	if (Mond == true && date.getDay()==1){
+		return date.getMonth()+"-"+date.getDate()+"-"+"Mon";
+	}
+	if (Tued == true && date.getDay()==2){
+		return date.getMonth()+"-"+date.getDate()+"-"+"Tue";
+	}
+	if (Wedd== true && date.getDay()==3){
+		return date.getMonth()+"-"+date.getDate()+"-"+"Wed";
+	}
+	if (Thud== true && date.getDay()==4){
+		return date.getMonth()+"-"+date.getDate()+"-"+"Thu";
+	}
+	if (Frid == true && date.getDay()==5){
+		return date.getMonth()+"-"+date.getDate()+"-"+"Fri";
+	}
+	if (Satd == true && date.getDay()==6){
+		return date.getMonth()+"-"+date.getDate()+"-"+"Sat";
+	}
+	if (Sund == true && date.getDay()==0){
+		return date.getMonth()+"-"+date.getDate()+"-"+"Sun";
+	}
+	return "";
+}
+function change(id){
+	if (document.getElementById(id).innerHTML == "No"){
+		document.getElementById(id).innerHTML = "YES";
+	}else{
+		document.getElementById(id).innerHTML = "NO";
+	}
 }
 </script>
 </head>
@@ -60,14 +149,15 @@ function clean_input(){
   &nbsp Sun<input type= "checkbox" name = "Ifsun" id = "ifsun">
 </p>
 <p>
-<button type= "button" name = "createbutton"  onclick = "new_class()">Create Class</button>
+<button type= "button" id = "cb" name = "createbutton"  onclick = "new_class()">Create Class</button>
 &nbsp &nbsp &nbsp
 <button type= "button" name = "clearbutton"  onclick = "clean_input()">Clear</button>
 </p>
-<p id = "what"></p>
 <p>
-<table id = "ta" border = "1" width = "30%" >
-<td id = "l1" height = "50px"><font size = "3">Class already created
-</td>
+<input type = "text" name = "nam" id = "nam" style="font-size:30px"></input>&nbsp &nbsp &nbsp <button id = "addna" type = "button" onclick = "addname()" disabled>Add Name</button>
+</p>
+<p>
+<table id = "ta" border = "1">
+
 </p>
 </body></html>
