@@ -5,8 +5,10 @@
 <link rel = "stylesheet" href = "EasyAttendence.css">
 <script>
 var classday = 0;
+var classN = "";
 function new_class(){
 	var Class_Name = document.getElementById("classname").value;
+	classN = Class_Name;
 	var Class_Start = document.getElementById("startdate").value;
 	var Class_End = document.getElementById("enddate").value;
 	var Class_Mon = document.getElementById("ifmon").checked;
@@ -46,6 +48,8 @@ function new_class(){
 			
 			var but = document.getElementById("addna");
 			but.disabled = false;
+			var but1 = document.getElementById("save");
+			but1.disabled = false;
 			var but2 = document.getElementById("cb");
 			but2.disabled = true;
 		}
@@ -98,25 +102,25 @@ function trandate(date){
 }
 function deteDay(date,Mond,Tued,Wedd, Thud,Frid,Satd,Sund){
 	if (Mond == true && date.getDay()==1){
-		return date.getMonth()+"-"+date.getDate()+"-"+"Mon";
+		return (date.getMonth()+1)+"-"+date.getDate()+"-"+"Mon";
 	}
 	if (Tued == true && date.getDay()==2){
-		return date.getMonth()+"-"+date.getDate()+"-"+"Tue";
+		return (date.getMonth()+1)+"-"+date.getDate()+"-"+"Tue";
 	}
 	if (Wedd== true && date.getDay()==3){
-		return date.getMonth()+"-"+date.getDate()+"-"+"Wed";
+		return (date.getMonth()+1)+"-"+date.getDate()+"-"+"Wed";
 	}
 	if (Thud== true && date.getDay()==4){
-		return date.getMonth()+"-"+date.getDate()+"-"+"Thu";
+		return (date.getMonth()+1)+"-"+date.getDate()+"-"+"Thu";
 	}
 	if (Frid == true && date.getDay()==5){
-		return date.getMonth()+"-"+date.getDate()+"-"+"Fri";
+		return (date.getMonth()+1)+"-"+date.getDate()+"-"+"Fri";
 	}
 	if (Satd == true && date.getDay()==6){
-		return date.getMonth()+"-"+date.getDate()+"-"+"Sat";
+		return (date.getMonth()+1)+"-"+date.getDate()+"-"+"Sat";
 	}
 	if (Sund == true && date.getDay()==0){
-		return date.getMonth()+"-"+date.getDate()+"-"+"Sun";
+		return (date.getMonth()+1)+"-"+date.getDate()+"-"+"Sun";
 	}
 	return "";
 }
@@ -126,6 +130,32 @@ function change(id){
 	}else{
 		document.getElementById(id).innerHTML = "NO";
 	}
+}
+function savefile(){
+	var table = document.getElementById("ta");
+	var data = []
+	for(var i=0;i<table.rows.length;i++){  
+		var temp = [];
+        for(var j=0;j<table.rows[i].cells.length;j++){  
+            var str = table.rows[i].cells[j].innerHTML;
+			if (str[0] == "<"){
+				if(str.slice(-10) == "S</button>"){
+					str = "YES";
+				}else{
+					str = "NO";
+				}
+			}
+			temp.push(str);  
+        }
+		data.push(temp.join(",")+"\n");
+    }
+	var uri = 'data:text/csv;charset=utf-8,' + encodeURIComponent(data.join(""));  
+    var downloadLink = document.createElement("a");
+    downloadLink.href = uri;
+    downloadLink.download = classN+".csv"; 
+    document.body.appendChild(downloadLink);
+    downloadLink.click();
+    document.body.removeChild(downloadLink);
 }
 </script>
 </head>
@@ -154,7 +184,7 @@ function change(id){
 <button type= "button" name = "clearbutton"  onclick = "clean_input()">Clear</button>
 </p>
 <p>
-<input type = "text" name = "nam" id = "nam" style="font-size:30px"></input>&nbsp &nbsp &nbsp <button id = "addna" type = "button" onclick = "addname()" disabled>Add Name</button>
+<input type = "text" name = "nam" id = "nam" style="font-size:30px"></input>&nbsp &nbsp &nbsp <button id = "addna" type = "button" onclick = "addname()" disabled>Add Name</button>&nbsp &nbsp &nbsp <button id = "save" type = "button" onclick = "savefile()" disabled>Save</button>
 </p>
 <p>
 <table id = "ta" border = "1">
