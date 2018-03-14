@@ -191,7 +191,7 @@ function loadfile(){
 				var items = "<td>"+item[0]+"</td>";
 				if(item.length != 1){
 					for (var j = 1; j< item.length; j++){
-						items += "<td><button type= \"button\" id = \""+i+","+j+"\" onClick = \"change(\'"+i+","+j+"\')\" >"+item[j]+"</button></td>";
+						items += "<td><button type= \"button\" id = \""+item[0]+(j-1)+"\" onClick = \"change(\'"+item[0]+(j-1)+"\')\" >"+item[j]+"</button></td>";
 					}
 				}
 				newRow.innerHTML = items;
