@@ -152,7 +152,8 @@ function savefile(){
 	var uri = 'data:text/csv;charset=utf-8,' + encodeURIComponent(data.join(""));  
     var downloadLink = document.createElement("a");
     downloadLink.href = uri;
-    downloadLink.download = classN+".csv"; 
+	var da = new Date();
+    downloadLink.download = classN+(da.getMonth()+1)+da.getDate()+".csv"; 
     document.body.appendChild(downloadLink);
     downloadLink.click();
     document.body.removeChild(downloadLink);
@@ -177,6 +178,8 @@ function loadfile(){
 			var newLine = document.createElement("tr");
 			var Input = "";
 			var th = str[0].split(",");
+			classN = th[0];
+			classday = th.length -1;
 			for(var m = 0; m < th.length;m++){
 				Input += "<th>"+ th[m] + "</th>";
 			}
