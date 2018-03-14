@@ -157,6 +157,47 @@ function savefile(){
     downloadLink.click();
     document.body.removeChild(downloadLink);
 }
+function loadfile(){
+	var file = document.getElementById("file");
+	if(file.files.length){
+		var but = document.getElementById("addna");
+		but.disabled = false;
+		var but1 = document.getElementById("save");
+		but1.disabled = false;
+		var but2 = document.getElementById("cb");
+		but2.disabled = true;
+		var reader = new FileReader();
+		reader.readAsBinaryString(file.files[0]);
+		reader.onload = function(e)
+        {
+            var h = e.target.result;
+			var str = h.split("\n");
+			var oldRow = document.getElementById("ta");
+			oldRow.innerHTML = "";
+			var newLine = document.createElement("tr");
+			var Input = "";
+			var th = str[0].split(",");
+			for(var m = 0; m < th.length;m++){
+				Input += "<th>"+ th[m] + "</th>";
+			}
+			newLine.innerHTML = Input;
+			oldRow.appendChild(newLine);
+			for(var i = 1; i<str.length-1;i++){
+				var item = str[i].split(",");
+				var newRow = document.createElement("tr");
+				var items = "<td>"+item[0]+"</td>";
+				if(item.length != 1){
+					for (var j = 1; j< item.length; j++){
+						items += "<td><button type= \"button\" id = \""+i+","+j+"\" onClick = \"change(\'"+i+","+j+"\')\" >"+item[j]+"</button></td>";
+					}
+				}
+				newRow.innerHTML = items;
+				oldRow.appendChild(newRow);
+			}
+			
+		}	
+	}
+}
 </script>
 </head>
 <body>
@@ -184,8 +225,11 @@ function savefile(){
 <button type= "button" name = "clearbutton"  onclick = "clean_input()">Clear</button>
 </p>
 <p>
-<input type = "text" name = "nam" id = "nam" style="font-size:30px"></input>&nbsp &nbsp &nbsp <button id = "addna" type = "button" onclick = "addname()" disabled>Add Name</button>&nbsp &nbsp &nbsp <button id = "save" type = "button" onclick = "savefile()" disabled>Save</button>
-</p>
+<input type = "text" name = "nam" id = "nam" style="font-size:30px"></input>&nbsp &nbsp &nbsp 
+<button id = "addna" type = "button" onclick = "addname()" disabled>Add Name</button>&nbsp &nbsp &nbsp 
+<button id = "save" type = "button" onclick = "savefile()" disabled>Save</button>&nbsp &nbsp &nbsp
+<button id = "load" type = "button" onclick = "loadfile()">Load</button>
+<input id = "file" type = "file" ></input>
 <p>
 <table id = "ta" border = "1">
 
